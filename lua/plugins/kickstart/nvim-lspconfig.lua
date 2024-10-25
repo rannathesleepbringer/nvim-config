@@ -1,3 +1,4 @@
+-- nvim-lspconfig.lua
 local M = {
 	-- Main LSP Configuration
 	"neovim/nvim-lspconfig",

@@ -16,50 +16,59 @@ vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
   spec = {
-    -- add LazyVim and import its plugins
     {
       "LazyVim/LazyVim",
-      -- import = "lazyvim.plugins",
+      import = "lazyvim.plugins",
+      --change the loaded theme here
+      opts = { colorscheme = "catppuccin" },
     },
     -- import/override with your plugins
-    -- {import = "plugins"},
+    -- { import = "plugins" },
     --comment out any plugin you dont want. Uncomment above if you want to import all plugins
-    require("plugins.debug"),
-    require("plugins.indent_line"),
-    require("plugins.lint"),
-    require("plugins.autopairs"),
-    require("plugins.neo-tree"),
-    require("plugins.gitsigns"), -- adds gitsigns recommend keymaps
-    require("plugins.nvim-treesitter"),
-    require("plugins.todo-comments"),
-    require("plugins.mini-nvim"),
-    require("plugins.nvim-cmp"),
-    require("plugins.conform"),
-    require("plugins.nvim-lspconfig"),
-    require("plugins.lazydev"),
-    require("plugins.telescope"),
-    require("plugins.which-key"),
-    require("plugins.tokyonight"),
+    require("plugins.kickstart.debug"),
+    require("plugins.kickstart.indent_line"),
+    require("plugins.kickstart.lint"),
+    require("plugins.kickstart.autopairs"),
+    require("plugins.kickstart.neo-tree"),
+    require("plugins.kickstart.gitsigns"), -- adds gitsigns recommend keymaps
+
+    require("plugins.kickstart.autoformat"),
+    require("plugins.kickstart.conform"),
+    require("plugins.kickstart.lazydev"),
+    require("plugins.kickstart.lint"),
+    require("plugins.kickstart.luvit-meta"),
+    require("plugins.kickstart.mini-nvim"),
+    require("plugins.kickstart.nvim-cmp"),
+    require("plugins.kickstart.nvim-lspconfig"),
+    require("plugins.kickstart.nvim-treesitter"),
+    require("plugins.kickstart.telescope"),
+    require("plugins.kickstart.todo-comments"),
+    require("plugins.kickstart.tokyonight"),
+    require("plugins.kickstart.vim-sleuth"),
+    require("plugins.kickstart.which-key"),
     --
     -- require("custom.plugins.init"),
-    require("plugins.lazyvim"),
-    require("plugins.alpha"),
-    require("plugins.flash"),
-    require("plugins.notify"),
-    require("plugins.noice"),
-    require("plugins.neorg"),
-    require("plugins.lazygit"),
-    require("plugins.codesnap"),
-    require("plugins.codeium"),
-    require("plugins.harpoon2"),
-    require("plugins.lualine"),
-    require("plugins.neotree"),
-    require("plugins.persistence"),
-    require("plugins.project"),
-    require("plugins.bufferline"),
-    require("plugins.nonels"),
-    require("plugins.catppuccin"),
-    require("plugins.luarocks"),
+    require("plugins.custom.alpha"),
+    require("plugins.custom.bufferline"),
+    require("plugins.custom.catppuccin"),
+    require("plugins.custom.codeium"),
+    require("plugins.custom.codesnap"),
+    require("plugins.custom.dashboard"),
+    require("plugins.custom.flash"),
+    require("plugins.custom.harpoon2"),
+    require("plugins.custom.lazygit"),
+    require("plugins.custom.lualine"),
+    require("plugins.custom.luarocks"),
+    require("plugins.custom.neorg"),
+    require("plugins.custom.neotree"),
+    require("plugins.custom.noice"),
+    require("plugins.custom.persistence"),
+    require("plugins.custom.project"),
+    require("plugins.custom.trouble"),
+
+    -- require("plugins.custom.lazyvim"),
+    -- require("plugins.custom.nonels"),
+    -- require("plugins.custom.notify"),
   },
   defaults = {
     -- By default, only LazyVim plugins will be lazy-loaded. Your custom plugins will load during startup.
@@ -70,6 +79,7 @@ require("lazy").setup({
     version = false, -- always use the latest git commit
     -- version = "*", -- try installing the latest stable version for plugins that support semver
   },
+
   checker = {
     enabled = true, -- check for plugin updates periodically
     notify = false, -- notify on update

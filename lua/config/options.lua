@@ -82,7 +82,6 @@ vim.opt.scrolloff = 10
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
 
-
 vim.wo.relativenumber = true
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
@@ -98,3 +97,5 @@ opt.foldexpr = "nvim_treesitter#foldr()"
 
 vim.keymap.set("n", "o", "o<Esc>")
 vim.keymap.set("n", "O", "O<Esc>")
+
+vim.g.have_kitty = true

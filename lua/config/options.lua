@@ -103,5 +103,6 @@ vim.keymap.set("n", "O", "O<Esc>")
 vim.wo.foldlevel = 99
 vim.wo.conceallevel = 2
 
-vim.g.have_kitty = true
+vim.g.have_kitty = false
 vim.g.transparent_theme = false
+vim.g.scarlet = true

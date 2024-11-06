@@ -88,14 +88,20 @@ vim.g.loaded_netrwPlugin = 1
 vim.opt.termguicolors = true
 vim.g.codeium_disable_bindings = 1
 
-local vim = vim
-local opt = vim.opt
-
-opt.foldopen = "all"
-opt.foldmethod = "indent"
-opt.foldexpr = "nvim_treesitter#foldr()"
+-- For some reason I added this for Python but it's never worked
+-- local vim = vim
+-- local opt = vim.opt
+-- opt.foldopen = "all"
+-- opt.foldmethod = "indent"
+-- opt.foldexpr = "nvim_treesitter#foldr()"
+-- vim.opt.foldmethod = "expr"
+-- vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
 
 vim.keymap.set("n", "o", "o<Esc>")
 vim.keymap.set("n", "O", "O<Esc>")
 
+vim.wo.foldlevel = 99
+vim.wo.conceallevel = 2
+
 vim.g.have_kitty = true
+vim.g.transparent_theme = false

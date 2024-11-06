@@ -65,7 +65,7 @@ function M.config()
     button("n", icons.ui.NewFile .. "  New file", "<cmd>enew<CR>"),
     button("p", icons.git.Repo .. "  Find project", ":lua require('telescope').extensions.projects.projects()<CR>"),
     button("h", icons.ui.History .. "  Recent Files", "<cmd>Telescope oldfiles<cr>"),
-    button("e", icons.ui.Tree .. "   Explorer", "<cmd>Neotree<cr>"),
+    button("e", icons.ui.Tree .. "   Explorer", "<cmd>Neotree dir=./~<cr>"),
     button("t", icons.ui.Text .. "  Find text", ":Telescope live_grep <CR>"),
     button("c", icons.ui.Gear .. "  Open Config", ":Telescope live_grep search_dirs=~/.config/nvim/<CR>"),
     button("r", icons.ui.History .. "  Restore Session", restore_session),
@@ -96,6 +96,12 @@ function M.config()
 
   dashboard.opts.opts.noautocmd = true
   require("alpha").setup(dashboard.opts)
+
+  local wk = require("which-key")
+  wk.add({
+    { "<leader>a", "<cmd>Alpha<cr>", desc = "Dashboard", mode = "n" },
+  })
+  -- wk.setup()
 
   vim.api.nvim_create_autocmd("User", {
     pattern = "LazyVimStarted",

@@ -1,3 +1,4 @@
+-- lazy.lua
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
   local lazyrepo = "https://github.com/folke/lazy.nvim.git"
@@ -29,7 +30,7 @@ require("lazy").setup({
     require("plugins.kickstart.indent_line"),
     require("plugins.kickstart.lint"),
     require("plugins.kickstart.autopairs"),
-    require("plugins.kickstart.neo-tree"),
+    -- require("plugins.kickstart.neo-tree"),
     require("plugins.kickstart.gitsigns"), -- adds gitsigns recommend keymaps
 
     require("plugins.kickstart.autoformat"),
@@ -62,11 +63,12 @@ require("lazy").setup({
     require("plugins.custom.luarocks"),
     require("plugins.custom.neogit"),
     require("plugins.custom.neorg"),
-    -- require("plugins.custom.neotree"),
+    require("plugins.custom.neo-tree"),
     require("plugins.custom.noice"),
     require("plugins.custom.persistence"),
     require("plugins.custom.project"),
     require("plugins.custom.trouble"),
+    require("plugins.custom.vimbegood"),
 
     -- require("plugins.custom.lazyvim"),
     -- require("plugins.custom.nonels"),

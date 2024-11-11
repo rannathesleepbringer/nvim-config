@@ -69,7 +69,7 @@ if select(1, ...) ~= 'os_name' then
 	-- print(("%q %q"):format(getOS())
 	local os, architect = getOS()
 	if architect == "arm" then
-		require("alternative.arm")
+		require("config.arm")
 	else
 
 		require("config.lazy")

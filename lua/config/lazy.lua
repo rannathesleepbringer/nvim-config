@@ -28,7 +28,7 @@ require("lazy").setup({
     --comment out any plugin you dont want. Uncomment above if you want to import all plugins
     require("plugins.kickstart.debug"),
     require("plugins.kickstart.indent_line"),
-    require("plugins.kickstart.lint"),
+    -- require("plugins.kickstart.lint"),
     require("plugins.kickstart.autopairs"),
     -- require("plugins.kickstart.neo-tree"),
     require("plugins.kickstart.gitsigns"), -- adds gitsigns recommend keymaps
@@ -36,7 +36,6 @@ require("lazy").setup({
     require("plugins.kickstart.autoformat"),
     require("plugins.kickstart.conform"),
     require("plugins.kickstart.lazydev"),
-    require("plugins.kickstart.lint"),
     require("plugins.kickstart.luvit-meta"),
     require("plugins.kickstart.mini-nvim"),
     require("plugins.kickstart.nvim-cmp"),

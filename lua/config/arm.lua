@@ -36,7 +36,6 @@ require("lazy").setup({
     require("plugins.kickstart.autoformat"),
     require("plugins.kickstart.conform"),
     require("plugins.kickstart.lazydev"),
-    require("plugins.kickstart.lint"),
     require("plugins.kickstart.luvit-meta"),
     require("plugins.kickstart.mini-nvim"),
     require("plugins.kickstart.nvim-cmp"),

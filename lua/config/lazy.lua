@@ -61,6 +61,7 @@ require("lazy").setup({
     require("plugins.custom.lazygit"),
     require("plugins.custom.lualine"),
     require("plugins.custom.luarocks"),
+    require("plugins.custom.markview"),
     require("plugins.custom.neogit"),
     require("plugins.custom.neorg"),
     require("plugins.custom.neo-tree"),

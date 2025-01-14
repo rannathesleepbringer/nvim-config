@@ -17,12 +17,12 @@ vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
   spec = {
-    {
-      "LazyVim/LazyVim",
-      import = "lazyvim.plugins",
-      --change the loaded theme here
-      opts = { colorscheme = "catppuccin" },
-    },
+    -- {
+    --   "LazyVim/LazyVim",
+    --   import = "lazyvim.plugins",
+    --   --change the loaded theme here
+    --   opts = { colorscheme = "catppuccin" },
+    -- },
     -- import/override with your plugins
     -- { import = "plugins" },
     --comment out any plugin you dont want. Uncomment above if you want to import all plugins
@@ -59,7 +59,7 @@ require("lazy").setup({
     require("plugins.custom.harpoon2"),
     require("plugins.custom.lazygit"),
     require("plugins.custom.lualine"),
-    require("plugins.custom.luarocks"),
+    -- require("plugins.custom.luarocks"),
     require("plugins.custom.markview"),
     require("plugins.custom.neogit"),
     require("plugins.custom.neorg"),

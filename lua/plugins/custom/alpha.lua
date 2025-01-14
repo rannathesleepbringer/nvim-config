@@ -1,6 +1,7 @@
 -- alpha.lua
 local M = {
   "goolord/alpha-nvim",
+  dependencies = { "folke/which-key.nvim" },
   event = "VimEnter",
 }
 local function set_dashboard_logo()
@@ -79,7 +80,7 @@ function M.config()
     button("c", icons.ui.Gear .. "  Open Config", ":Telescope live_grep search_dirs=~/.config/nvim/<CR>"),
     button("r", icons.ui.History .. "  Restore Session", restore_session),
     button("l", "󰒲   Lazy", "<cmd>Lazy<CR>"),
-    button("x", icons.ui.Code .. "   Lazy Extras", "<cmd>LazyExtras<CR>"),
+    -- button("x", icons.ui.Code .. "   Lazy Extras", "<cmd>LazyExtras<CR>"),
     button("m", icons.ui.Scopes .. "   Mason", "<cmd>Mason<CR>"),
     button("q", icons.ui.SignOut .. "  Quit", ":qa<CR>"),
   }

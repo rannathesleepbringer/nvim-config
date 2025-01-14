@@ -1,7 +1,15 @@
 -- codesnap.lua
 local M = {
+
+  -- `cond` is a condition used to determine whether this plugin should be
+  -- installed and loaded.
+  cond = function()
+    return vim.fn.executable("rustup") == 1
+  end,
   "mistricky/codesnap.nvim",
-  build = "make build_generator",
+  -- build = "make build_generator",
+  build = "make",
+  lazy = false,
   keys = {
     { "<leader>cc", "<cmd>CodeSnap<cr>", mode = { "v", "x" }, desc = "Save selected code snapshot into clipboard" },
     { "<leader>cs", "<cmd>CodeSnapSave<cr>", mode = { "v", "x" }, desc = "Save selected code snapshot in ~/Pictures" },

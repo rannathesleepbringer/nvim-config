@@ -14,15 +14,14 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
   end
 end
 vim.opt.rtp:prepend(lazypath)
-
 require("lazy").setup({
   spec = {
-    {
-      "LazyVim/LazyVim",
-      import = "lazyvim.plugins",
-      --change the loaded theme here
-      opts = { colorscheme = "catppuccin" },
-    },
+    -- {
+    -- "LazyVim/LazyVim",
+    -- import = "lazyvim.plugins",
+    --change the loaded theme here
+    -- opts = { colorscheme = "catppuccin" },
+    -- },
     -- import/override with your plugins
     -- { import = "plugins" },
     --comment out any plugin you dont want. Uncomment above if you want to import all plugins
@@ -43,15 +42,19 @@ require("lazy").setup({
     require("plugins.kickstart.nvim-treesitter"),
     require("plugins.kickstart.telescope"),
     require("plugins.kickstart.todo-comments"),
-    require("plugins.kickstart.tokyonight"),
+    -- require("plugins.kickstart.tokyonight"),
     require("plugins.kickstart.vim-sleuth"),
-    require("plugins.kickstart.which-key"),
-    --
+    -- require("plugins.kickstart.which-key"),
+    -- --
     -- require("custom.plugins.init"),
+    --
+    require("plugins.custom.snacks"),
+    require("plugins.custom.mason"),
+    require("plugins.custom.which-key"),
     require("plugins.custom.alpha"),
     require("plugins.custom.bufferline"),
     require("plugins.custom.catppuccin"),
-    require("plugins.custom.codeium"),
+    -- require("plugins.custom.codeium"),
     require("plugins.custom.codesnap"),
     require("plugins.custom.dashboard"),
     require("plugins.custom.flash"),
@@ -63,6 +66,7 @@ require("lazy").setup({
     require("plugins.custom.markview"),
     require("plugins.custom.neogit"),
     require("plugins.custom.neorg"),
+    require("plugins.custom.neorg-new"),
     require("plugins.custom.neo-tree"),
     require("plugins.custom.noice"),
     require("plugins.custom.persistence"),
@@ -73,6 +77,11 @@ require("lazy").setup({
     -- require("plugins.custom.lazyvim"),
     -- require("plugins.custom.nonels"),
     -- require("plugins.custom.notify"),
+  },
+  install = {
+    colorscheme = {
+      "habamax",
+    },
   },
   defaults = {
     -- By default, only LazyVim plugins will be lazy-loaded. Your custom plugins will load during startup.
@@ -96,10 +105,10 @@ require("lazy").setup({
         -- "matchit",
         -- "matchparen",
         -- "netrwPlugin",
-        "tarPlugin",
-        "tohtml",
-        "tutor",
-        "zipPlugin",
+        -- "tarPlugin",
+        -- "tohtml",
+        -- "tutor",
+        -- "zipPlugin",
       },
     },
   },

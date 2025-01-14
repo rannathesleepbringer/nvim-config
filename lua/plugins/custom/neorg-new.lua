@@ -5,11 +5,12 @@ local M = {
   -- `cond` is a condition used to determine whether this plugin should be
   -- installed and loaded.
   cond = function()
-    return vim.fn.executable("luarocks") ~= 1
+    return vim.fn.executable("luarocks") == 1
   end,
   "nvim-neorg/neorg",
-  version = "v7.0.0",
-  build = ":Neorg sync-parsers",
+  lazy = false,
+  version = "v9.1.1",
+  -- build = ":Neorg sync-parsers",
   dependencies = { "nvim-lua/plenary.nvim" },
   config = function()
     require("neorg").setup({

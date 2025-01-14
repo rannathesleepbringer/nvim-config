@@ -69,9 +69,14 @@ if select(1, ...) ~= 'os_name' then
 	-- print(("%q %q"):format(getOS())
 	local os, architect = getOS()
 	if architect == "arm" then
-		require("config.arm")
+		require("config.options")
+		require("config.autocmds")
+		require("config.keymaps")
 	else
 
+		require("config.options")
+		require("config.autocmds")
+		require("config.keymaps")
 		require("config.lazy")
 	end
 	

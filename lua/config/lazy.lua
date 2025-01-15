@@ -72,6 +72,7 @@ require("lazy").setup({
     require("plugins.custom.persistence"),
     require("plugins.custom.project"),
     require("plugins.custom.trouble"),
+    require("plugins.custom.typr"),
     require("plugins.custom.vimbegood"),
 
     -- require("plugins.custom.lazyvim"),

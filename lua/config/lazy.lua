@@ -71,6 +71,7 @@ require("lazy").setup({
     require("plugins.custom.noice"),
     require("plugins.custom.persistence"),
     require("plugins.custom.project"),
+    require("plugins.custom.spongebob"),
     require("plugins.custom.trouble"),
     require("plugins.custom.typr"),
     require("plugins.custom.vimbegood"),

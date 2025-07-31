@@ -69,12 +69,15 @@ require("lazy").setup({
     require("plugins.custom.neorg-new"),
     require("plugins.custom.neo-tree"),
     require("plugins.custom.noice"),
+    require("plugins.custom.nvim-ufo"),
+    require("plugins.custom.openscad"),
     require("plugins.custom.persistence"),
     require("plugins.custom.project"),
     require("plugins.custom.spongebob"),
     require("plugins.custom.trouble"),
     require("plugins.custom.typr"),
     require("plugins.custom.vimbegood"),
+    require("plugins.custom.vimgolf"),
 
     -- require("plugins.custom.lazyvim"),
     -- require("plugins.custom.nonels"),
@@ -103,7 +106,7 @@ require("lazy").setup({
     rtp = {
       -- disable some rtp plugins
       disabled_plugins = {
-        "gzip",
+        -- "gzip",
         -- "matchit",
         -- "matchparen",
         -- "netrwPlugin",

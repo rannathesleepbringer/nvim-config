@@ -22,6 +22,10 @@ function M.config()
     disable_context_highlighting = false,
     -- Disables signs for sections/items/hunks
     disable_signs = false,
+    -- Path to git executable. Defaults to "git". Can be used to specify a custom git binary or wrapper script.
+    git_executable = "git",
+    -- Offer to force push when branches diverge
+    prompt_force_push = true,
     -- Changes what mode the Commit Editor starts in. `true` will leave nvim in normal mode, `false` will change nvim to
     -- insert mode, and `"auto"` will change nvim to insert mode IF the commit message is empty, otherwise leaving it in
     -- normal mode.
@@ -34,13 +38,40 @@ function M.config()
     },
     -- "ascii"   is the graph the git CLI generates
     -- "unicode" is the graph like https://github.com/rbong/vim-flog
+    -- "kitty"   is the graph like https://github.com/isakbm/gitgraph.nvim - use https://github.com/rbong/flog-symbols if you don't use Kitty
     graph_style = "ascii",
-    -- Used to generate URL's for branch popup action "pull request".
+    -- Show relative date by default. When set, use `strftime` to display dates
+    commit_date_format = nil,
+    log_date_format = nil,
+    -- Show message with spinning animation when a git command is running.
+    process_spinner = false,
+    -- Used to generate URL's for branch popup action "pull request", "open commit" and "open tree"
     git_services = {
-      ["github.com"] = "https://github.com/${owner}/${repository}/compare/${branch_name}?expand=1",
-      ["bitbucket.org"] = "https://bitbucket.org/${owner}/${repository}/pull-requests/new?source=${branch_name}&t=1",
-      ["gitlab.com"] = "https://gitlab.com/${owner}/${repository}/merge_requests/new?merge_request[source_branch]=${branch_name}",
-      ["azure.com"] = "https://dev.azure.com/${owner}/_git/${repository}/pullrequestcreate?sourceRef=${branch_name}&targetRef=${target}",
+      ["github.com"] = {
+        pull_request = "https://github.com/${owner}/${repository}/compare/${branch_name}?expand=1",
+        commit = "https://github.com/${owner}/${repository}/commit/${oid}",
+        tree = "https://${host}/${owner}/${repository}/tree/${branch_name}",
+      },
+      ["bitbucket.org"] = {
+        pull_request = "https://bitbucket.org/${owner}/${repository}/pull-requests/new?source=${branch_name}&t=1",
+        commit = "https://bitbucket.org/${owner}/${repository}/commits/${oid}",
+        tree = "https://bitbucket.org/${owner}/${repository}/branch/${branch_name}",
+      },
+      ["gitlab.com"] = {
+        pull_request = "https://gitlab.com/${owner}/${repository}/merge_requests/new?merge_request[source_branch]=${branch_name}",
+        commit = "https://gitlab.com/${owner}/${repository}/-/commit/${oid}",
+        tree = "https://gitlab.com/${owner}/${repository}/-/tree/${branch_name}?ref_type=heads",
+      },
+      ["azure.com"] = {
+        pull_request = "https://dev.azure.com/${owner}/_git/${repository}/pullrequestcreate?sourceRef=${branch_name}&targetRef=${target}",
+        commit = "",
+        tree = "",
+      },
+      ["codeberg.org"] = {
+        pull_request = "https://${host}/${owner}/${repository}/compare/${branch_name}",
+        commit = "https://${host}/${owner}/${repository}/commit/${oid}",
+        tree = "https://${host}/${owner}/${repository}/src/branch/${branch_name}",
+      },
     },
     -- Allows a different telescope sorter. Defaults to 'fuzzy_with_index_bias'. The example below will use the native fzf
     -- sorter instead. By default, this function returns `nil`.
@@ -52,13 +83,7 @@ function M.config()
     -- Scope persisted settings on a per-project basis
     use_per_project_settings = true,
     -- Table of settings to never persist. Uses format "Filetype--cli-value"
-    ignored_settings = {
-      "NeogitPushPopup--force-with-lease",
-      "NeogitPushPopup--force",
-      "NeogitPullPopup--rebase",
-      "NeogitCommitPopup--allow-empty",
-      "NeogitRevertPopup--no-edit",
-    },
+    ignored_settings = {},
     -- Configure highlight group features
     highlight = {
       italic = true,
@@ -75,18 +100,36 @@ function M.config()
     -- Flag description: https://git-scm.com/docs/git-branch#Documentation/git-branch.txt---sortltkeygt
     -- Sorting keys: https://git-scm.com/docs/git-for-each-ref#_options
     sort_branches = "-committerdate",
+    -- Value passed to the `--<commit_order>-order` flag of the `git log` command
+    -- Determines how commits are traversed and displayed in the log / graph:
+    --   "topo"         topological order (parents always before children, good for graphs, slower on large repos)
+    --   "date"         chronological order by commit date
+    --   "author-date"  chronological order by author date
+    --   ""             disable explicit ordering (fastest, recommended for very large repos)
+    commit_order = "topo",
     -- Default for new branch name prompts
     initial_branch_name = "",
     -- Change the default way of opening neogit
     kind = "tab",
-    -- Disable line numbers and relative line numbers
+    -- Floating window style
+    floating = {
+      relative = "editor",
+      width = 0.8,
+      height = 0.7,
+      style = "minimal",
+      border = "rounded",
+    },
+    -- Disable line numbers
     disable_line_numbers = true,
+    -- Disable relative line numbers
+    disable_relative_line_numbers = true,
     -- The time after which an output console is shown for slow running commands
     console_timeout = 2000,
     -- Automatically show console if a command takes more than console_timeout milliseconds
     auto_show_console = true,
     -- Automatically close the console if the process exits with a 0 (success) status
     auto_close_console = true,
+    notification_icon = "󰊢",
     status = {
       show_head_commit_hash = true,
       recent_commit_count = 10,
@@ -101,6 +144,7 @@ function M.config()
         C = "copied",
         U = "updated",
         R = "renamed",
+        T = "changed",
         DD = "unmerged",
         AU = "unmerged",
         UD = "unmerged",
@@ -142,14 +186,17 @@ function M.config()
     merge_editor = {
       kind = "auto",
     },
-    tag_editor = {
-      kind = "auto",
-    },
     preview_buffer = {
-      kind = "floating",
+      kind = "floating_console",
     },
     popup = {
       kind = "split",
+    },
+    stash = {
+      kind = "tab",
+    },
+    refs_view = {
+      kind = "tab",
     },
     signs = {
       -- { CLOSED, OPENED }
@@ -177,6 +224,11 @@ function M.config()
       -- is also selected then telescope is used instead
       -- Requires you to have `echasnovski/mini.pick` installed.
       mini_pick = nil,
+
+      -- If enabled, uses snacks.picker for menu selection. If the telescope integration
+      -- is also selected then telescope is used instead
+      -- Requires you to have `folke/snacks.nvim` installed.
+      snacks = nil,
     },
     sections = {
       -- Reverting/Cherry Picking
@@ -230,6 +282,9 @@ function M.config()
         ["q"] = "Close",
         ["<c-c><c-c>"] = "Submit",
         ["<c-c><c-k>"] = "Abort",
+        ["<m-p>"] = "PrevMessage",
+        ["<m-n>"] = "NextMessage",
+        ["<m-r>"] = "ResetMessage",
       },
       commit_editor_I = {
         ["<c-c><c-c>"] = "Submit",
@@ -265,21 +320,32 @@ function M.config()
         ["<c-p>"] = "Previous",
         ["<down>"] = "Next",
         ["<up>"] = "Previous",
-        ["<tab>"] = "MultiselectToggleNext",
-        ["<s-tab>"] = "MultiselectTogglePrevious",
+        ["<tab>"] = "InsertCompletion",
+        ["<c-y>"] = "CopySelection",
+        ["<space>"] = "MultiselectToggleNext",
+        ["<s-space>"] = "MultiselectTogglePrevious",
         ["<c-j>"] = "NOP",
+        ["<ScrollWheelDown>"] = "ScrollWheelDown",
+        ["<ScrollWheelUp>"] = "ScrollWheelUp",
+        ["<ScrollWheelLeft>"] = "NOP",
+        ["<ScrollWheelRight>"] = "NOP",
+        ["<LeftMouse>"] = "MouseClick",
+        ["<2-LeftMouse>"] = "NOP",
       },
       -- Setting any of these to `false` will disable the mapping.
       popup = {
         ["?"] = "HelpPopup",
         ["A"] = "CherryPickPopup",
-        ["D"] = "DiffPopup",
+        ["d"] = "DiffPopup",
         ["M"] = "RemotePopup",
         ["P"] = "PushPopup",
         ["X"] = "ResetPopup",
         ["Z"] = "StashPopup",
+        ["i"] = "IgnorePopup",
+        ["t"] = "TagPopup",
         ["b"] = "BranchPopup",
         ["B"] = "BisectPopup",
+        ["w"] = "WorktreePopup",
         ["c"] = "CommitPopup",
         ["f"] = "FetchPopup",
         ["l"] = "LogPopup",
@@ -287,28 +353,32 @@ function M.config()
         ["p"] = "PullPopup",
         ["r"] = "RebasePopup",
         ["v"] = "RevertPopup",
-        ["w"] = "WorktreePopup",
       },
       status = {
-        ["k"] = "MoveUp",
         ["j"] = "MoveDown",
-        ["q"] = "Close",
+        ["k"] = "MoveUp",
         ["o"] = "OpenTree",
+        ["q"] = "Close",
         ["I"] = "InitRepo",
         ["1"] = "Depth1",
         ["2"] = "Depth2",
         ["3"] = "Depth3",
         ["4"] = "Depth4",
+        ["Q"] = "Command",
         ["<tab>"] = "Toggle",
+        ["za"] = "Toggle",
+        ["zo"] = "OpenFold",
         ["x"] = "Discard",
         ["s"] = "Stage",
         ["S"] = "StageUnstaged",
         ["<c-s>"] = "StageAll",
-        ["K"] = "Untrack",
         ["u"] = "Unstage",
+        ["K"] = "Untrack",
         ["U"] = "UnstageStaged",
+        ["y"] = "ShowRefs",
         ["$"] = "CommandHistory",
         ["Y"] = "YankSelected",
+        ["gp"] = "GoToParentRepo",
         ["<c-r>"] = "RefreshBuffer",
         ["<cr>"] = "GoToFile",
         ["<s-cr>"] = "PeekFile",
@@ -321,6 +391,8 @@ function M.config()
         ["]c"] = "OpenOrScrollDown",
         ["<c-k>"] = "PeekUp",
         ["<c-j>"] = "PeekDown",
+        ["<c-n>"] = "NextSection",
+        ["<c-p>"] = "PreviousSection",
       },
     },
   })

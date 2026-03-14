@@ -59,6 +59,7 @@ require("lazy").setup({
     require("plugins.custom.dashboard"),
     require("plugins.custom.flash"),
     require("plugins.custom.gitgraph"),
+    -- require("plugins.custom.hardtime"),
     require("plugins.custom.harpoon2"),
     require("plugins.custom.lazygit"),
     require("plugins.custom.lualine"),

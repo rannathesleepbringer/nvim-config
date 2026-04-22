@@ -78,6 +78,7 @@ require("lazy").setup({
     require("plugins.custom.typr"),
     require("plugins.custom.vimbegood"),
     require("plugins.custom.vimgolf"),
+    require("plugins.custom.windsurf"),
 
     -- require("plugins.custom.lazyvim"),
     -- require("plugins.custom.nonels"),

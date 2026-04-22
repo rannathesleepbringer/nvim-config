@@ -1,0 +1,14 @@
+-- windsurf.nvim.lua
+-- windsurf.nvim
+--
+local M = {
+  "Exafunction/windsurf.nvim",
+  dependencies = {
+    "nvim-lua/plenary.nvim",
+    "hrsh7th/nvim-cmp",
+  },
+  config = function()
+    require("codeium").setup({})
+  end,
+}
+return M

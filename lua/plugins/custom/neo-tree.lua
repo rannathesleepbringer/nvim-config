@@ -24,6 +24,9 @@ function M.config()
         end,
       },
     },
+
+    vim.keymap.set("n", "<leader>ee", "<Cmd>Neotree reveal<CR>"),
+    vim.keymap.set("n", "<leader>ec", "<Cmd>Neotree ~/.config/nvim/<CR>"),
   })
 end
 return M
